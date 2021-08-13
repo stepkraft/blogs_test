@@ -7,12 +7,15 @@ services:
     depends_on:
       - postgres
     environment:
-      DATABASE_URL: postgres://user:pass@postgres:5432/db
+      DB_HOST: postgres:5432
+      DB_USER: user
+      DB_PASS: pass
+      DB_NAME: db
     ports:
       - "3005:3000"
     command: npm run start::dev
     volumes:
-      - .:/app/
+      - .:/usr/src/backend/
 
   postgres:
     image: postgres:10.4

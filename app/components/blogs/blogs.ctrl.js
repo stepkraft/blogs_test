@@ -1,29 +1,50 @@
-class BlogsController {
-    getBlogs(req, res) {
-      res.send('getBlogs works!');
-    }
+const BlogsService = require('./blogs.service');
+const BaseRestController = require('../base-ctrl');
 
-    createBlog(req, res) {
-        const {body: payload} = req;
+class BlogsController extends BaseRestController {
 
-        res.send('createBlog works!', payload);
+  constructor() {
+    super();
+    this.service = new BlogsService();
+  }
 
-        // return this.getUserInfo(req)
-        //     .then(this.favoritesService.setFavorites(payload))
-        //     .then(this.responseWithResult(res))
-        //     .catch(this.responseWithError(res));
-    }
+  getBlogs(req, res) {
+    return this.service.getBlogs()
+      .then(this.responseWithResult(res))
+      .catch(this.responseWithError(res));
+  }
 
-    deleteBlog(req, res) {
-        const {body: payload} = req;
+  async getBlog(req, res) {
+    const { blogId } = req.params;
 
-        res.send('deleteBlog works!', payload);
-    }
+    return this.service.getBlog(blogId)
+      .then(this.responseWithResult(res))
+      .catch(this.responseWithError(res))
+  }
 
-    updateBlog(req, res) {
-      const {body: payload} = req;
+  async createBlog(req, res) {
+    const payload = req.body;
 
-      res.send('updateBlog works!', payload);
+    return this.service.createBlog(payload)
+      .then(this.responseWithResult(res))
+      .catch(this.responseWithError(res))
+  }
+
+  async deleteBlog(req, res) {
+    const { blogId } = req.params;
+
+    return this.service.deleteBlog(blogId)
+      .then(this.responseWithResult(res))
+      .catch(this.responseWithError(res))
+  }
+
+  async updateBlog(req, res) {
+    const { blogId } = req.params;
+    const { id, ...payload} = req.body;
+
+    return this.service.updateBlog({ id: blogId, ...payload })
+      .then(this.responseWithResult(res))
+      .catch(this.responseWithError(res))
   }
 }
 
