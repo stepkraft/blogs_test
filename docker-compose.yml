@@ -14,8 +14,8 @@ services:
     ports:
       - "3005:3000"
     command: npm run start::dev
-    volumes:
-      - .:/usr/src/backend/
+    # volumes:
+    #   - .:/usr/src/backend/
 
   postgres:
     image: postgres:10.4
